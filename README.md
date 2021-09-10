@@ -12,7 +12,13 @@
   </a>
 </p>
 
-> This is a sample implementation of a SQL parser from a JSON file
+## Description
+
+* > This is a sample implementation of a SQL parser from a JSON file. 
+* > This uses *Interpreter pattern*. 
+* > First, it would build a parse or syntax Tree.
+* > Second, it would traverse the syntax tree and build the expression for the SQL.
+* > Prints the generated SQL to the console
 
 ### 🏠 [Homepage](https://github.com/SuperMohit/json-sql-island)
 
