@@ -20,5 +20,8 @@ jsm/resources/input.json
 SELECT column1, column2 FROM cayman WHERE column1 IN ('value1', 'value2', 'value3') AND column2 = value LEFT JOIN island ON cayman.id = island.id GROUP BY column1, column2 ORDER BY column1 DESC%  
 
 ```
+# godoc is generated at docs folder
+
+![alt text](https://github.com/SuperMohit/json-sql-island/blob/master/doc.png)
 
 
