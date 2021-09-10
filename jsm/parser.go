@@ -18,8 +18,12 @@ type QueryParser struct {
 //go:embed resources/input.json
 var query []byte
 
-func (q *QueryParser) Parse() (string, error) {
-	err := q.jsonReader()
+func (q *QueryParser) Parse(body []byte) (string, error) {
+	// default input for demo
+	if len(body) == 0 {
+		body = query
+	}
+	err := q.jsonReader(body)
 	if err != nil {
 		return "", err
 	}
@@ -34,8 +38,8 @@ func (q *QueryParser) Parse() (string, error) {
 	return q.sql, nil
 }
 
-func (q *QueryParser) jsonReader() error {
-	err := json.Unmarshal(query, &q.query)
+func (q *QueryParser) jsonReader(body []byte) error {
+	err := json.Unmarshal(body, &q.query)
 	if err != nil {
 		return fmt.Errorf("error parsing the input sql %w", err)
 	}
