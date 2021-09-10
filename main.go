@@ -14,14 +14,9 @@ import (
 // Print the SQL to the console
 func main() {
 
-	fptr := flag.String("fpath", "input.json", "file path to read from")
+	fptr := flag.String("input", "input.json", "file path to read from")
 	flag.Parse()
-	data, err := ioutil.ReadFile(*fptr)
-	if err != nil {
-		fmt.Println("File reading error", err)
-		return
-	}
-
+	data, _ := ioutil.ReadFile(*fptr)
 	parser := jsm.QueryParser{}
 	q, _ := parser.Parse(data)
 	fmt.Print(q)
