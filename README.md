@@ -1,27 +1,52 @@
-# Sql query from json input
+<h1 align="center">Welcome to SQL Parser 👋</h1>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-v1.1.0-blue.svg?cacheSeconds=2592000" />
+  <a href="https://github.com/SuperMohit/json-sql-island/tree/master/docs" target="_blank">
+    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
+  </a>
+  <a href="https://github.com/SuperMohit/json-sql-island/blob/master/LICENSE" target="_blank">
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+  </a>
+  <a href="https://twitter.com/MohitTalniya" target="_blank">
+    <img alt="Twitter: MohitTalniya" src="https://img.shields.io/twitter/follow/MohitTalniya.svg?style=social" />
+  </a>
+</p>
 
-* This is a sample implementation of a SQL parser from a JSON file
-* Application is built using Interpreter pattern. 
-* Each clause is a node of the Parse tree and the child nodes are next clauses. For instance SELECT is a parent node which would then for the child node like FROM  
-* First, it would build a parse or syntax Tree.
-* Second, it would traverse the syntax tree and build the expression for the SQL
-* Print the SQL to the console
+> This is a sample implementation of a SQL parser from a JSON file
 
-Input json file can be supplied as input to the command line. Default is input.json. 
-There is a default json stored in resources which would be executed incase no input.json is supplied to command line.
+### 🏠 [Homepage](https://github.com/SuperMohit/json-sql-island)
+
+### ✨ [Demo](go run github.com/SuperMohit/json-sql-island )
+
+## Install
+
+```sh
+ go run github.com/SuperMohit/json-sql-island 
 ```
-jsm/resources/input.json
 
+## Usage
+
+```sh
+Input json file can be supplied as input to the command line. Default = input.json
 ```
 
-# Execute from terminal
-```
- % go run github.com/SuperMohit/json-sql-island 
-SELECT column1, column2 FROM cayman WHERE column1 IN ('value1', 'value2', 'value3') AND column2 = value LEFT JOIN island ON cayman.id = island.id GROUP BY column1, column2 ORDER BY column1 DESC%  
+## Author
 
-```
-# godoc is generated in docs folder
+👤 **Mohit Talniya**
 
-![alt text](https://github.com/SuperMohit/json-sql-island/blob/master/doc.png)
+* Website: talniya.com
+* Twitter: [@MohitTalniya](https://twitter.com/MohitTalniya)
+* Github: [@SuperMohit](https://github.com/SuperMohit)
+* LinkedIn: [@Mohit Talniya](https://linkedin.com/in/Mohit Talniya)
 
+## Show your support
 
+Give a ⭐️ if this project helped you!
+
+## 📝 License
+
+Copyright © 2021 [Mohit Talniya](https://github.com/SuperMohit).<br />
+This project is [MIT](https://github.com/SuperMohit/json-sql-island/blob/master/LICENSE) licensed.
+
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
