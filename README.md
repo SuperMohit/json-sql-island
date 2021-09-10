@@ -37,7 +37,7 @@ Input json file can be supplied as input to the command line. Default = input.js
 * Website: talniya.com
 * Twitter: [@MohitTalniya](https://twitter.com/MohitTalniya)
 * Github: [@SuperMohit](https://github.com/SuperMohit)
-* LinkedIn: [@Mohit Talniya](https://linkedin.com/in/Mohit Talniya)
+* LinkedIn: [@Mohit Talniya](https://linkedin.com/in/MohitTalniya)
 
 ## Show your support
 
@@ -47,6 +47,3 @@ Give a ⭐️ if this project helped you!
 
 Copyright © 2021 [Mohit Talniya](https://github.com/SuperMohit).<br />
 This project is [MIT](https://github.com/SuperMohit/json-sql-island/blob/master/LICENSE) licensed.
-
-***
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
