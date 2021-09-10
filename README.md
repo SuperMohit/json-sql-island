@@ -22,7 +22,8 @@
 
 ### 🏠 [Homepage](https://github.com/SuperMohit/json-sql-island)
 
-### ✨ [Demo](go run github.com/SuperMohit/json-sql-island )
+### ✨ [Demo]
+  <img alt="Twitter: MohitTalniya" src="https://github.com/SuperMohit/json-sql-island/blob/master/demo.png" />
 
 ## Install
 
