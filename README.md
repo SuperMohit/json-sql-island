@@ -1,12 +1,14 @@
 # Sql query from json input
 
 * This is a sample implementation of a SQL parser from a JSON file
-* This uses Interpreter pattern
+* Application is built using Interpreter pattern. 
+* Each clause is a node of the Parse tree and the child nodes are next clauses. For instance SELECT is a parent node which would then for the child node like FROM  
 * First, it would build a parse or syntax Tree.
 * Second, it would traverse the syntax tree and build the expression for the SQL
 * Print the SQL to the console
 
-json file is stored at 
+Input json file can be supplied as input to the command line. Default is input.json. 
+There is a default json stored in resources which would be executed incase no input.json is supplied to command line.
 ```
 jsm/resources/input.json
 
