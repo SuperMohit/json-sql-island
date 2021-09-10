@@ -1,0 +1,29 @@
+{
+  "select" : {
+    "columns" : ["column1", "column2"]
+  },
+  "from" : {
+    "tables" : ["cayman"]
+  },
+  "where": [
+    {
+      "operator": "IN",
+      "fieldName": "column1",
+      "fieldValue": "'value1', 'value2', 'value3'"
+    },
+    {
+      "operator": "=",
+      "fieldName": "column2",
+      "fieldValue": "value"
+    }
+  ],
+  "join" : [{
+       "type" : "LEFT",
+       "table" : "island",
+       "on" : "cayman.id = island.id"
+  }],
+  "group" : ["column1, column2"],
+  "orderBy" :{
+    "columns" : [{"name": "column1", "desc": true}]
+  }
+}
