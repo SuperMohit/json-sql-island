@@ -8,6 +8,7 @@
 
 json file is stored at 
 ```
+jsm/resources/input.json
 
 ```
 
