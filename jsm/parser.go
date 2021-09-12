@@ -134,6 +134,7 @@ func (q *QueryParser) generateParseTree() error {
 					return w.conditions
 				}()
 
+				w.nextClauses = q.nextClause(nextClause)()
 				nextClause = w
 			}
 		case "From":
@@ -174,6 +175,7 @@ func recurseSubClauses(value interface{}) interface{} {
 
 	cl := NewClause()
 	parser := NewQueryParser(cl)
+	parser.isSubClause = true
 	value, err := parser.Parse(jsonStr)
 	if err != nil {
 		fmt.Errorf("error marshalling data %v", err)
