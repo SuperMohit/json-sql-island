@@ -15,13 +15,39 @@
       "operator": "=",
       "fieldName": "column2",
       "fieldValue": "value"
+    },
+    {
+      "operator" : "=",
+      "fieldName": "column3",
+      "fieldValue": {
+        "select" : {
+          "columns" : ["column4"]
+        },
+        "from" : {
+          "tables" : ["cayman"]
+        },
+        "where": [
+          {
+            "operator": "=",
+            "fieldName": "column1",
+            "fieldValue": "value1"
+          }]
+      }
     }
   ],
   "join" : [{
        "type" : "LEFT",
        "table" : "island",
        "on" : "cayman.id = island.id"
-  }],
+  },
+
+    {
+      "type" : "RIGHT",
+      "table" : "peer",
+      "on" : "peer.id = island.id"
+    }
+
+  ],
   "group" : ["column1, column2"],
   "orderBy" :{
     "columns" : [{"name": "column1", "desc": true}]

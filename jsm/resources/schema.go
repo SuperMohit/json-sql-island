@@ -1,6 +1,7 @@
 package resources
 
 // Query schema in order to map the json query to the query generator
+// Maintain the order of the fields
 type QuerySchema struct {
 	Select struct {
 		Columns []string `json:"columns"`

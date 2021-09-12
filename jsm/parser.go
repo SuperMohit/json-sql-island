@@ -10,9 +10,10 @@ import (
 )
 
 type QueryParser struct {
-	query     resources.QuerySchema
-	parseTree Clause
-	sql       string
+	query       resources.QuerySchema
+	parseTree   Clause
+	sql         string
+	isSubClause bool
 }
 
 //go:embed resources/input.json
@@ -48,7 +49,13 @@ func (q *QueryParser) jsonReader(body []byte) error {
 
 func (q *QueryParser) buildExpression() error {
 	sb := strings.Builder{}
+	if q.isSubClause {
+		sb.WriteString("(")
+	}
 	q.parseTree.Build(&sb)
+	if q.isSubClause {
+		sb.WriteString(")")
+	}
 	q.sql = sb.String()
 	return nil
 }
@@ -100,11 +107,20 @@ func (q *QueryParser) generateParseTree() error {
 					conditions: func() []condition {
 						conds := make([]condition, 0, len(q.query.Where))
 						for _, v := range q.query.Where {
+							value := v.Fieldvalue
+							switch value.(type) {
+							case string, int:
+								// other scalar data types
+								break
+							default:
+								value = recurseSubClauses(value)
+							}
+
 							conds = append(conds,
 								condition{
 									col:   v.Fieldname,
 									op:    v.Operator,
-									value: v.Fieldvalue,
+									value: value,
 								})
 						}
 						return conds
@@ -144,6 +160,16 @@ func (q *QueryParser) generateParseTree() error {
 	}
 
 	return nil
+}
+
+func recurseSubClauses(value interface{}) interface{} {
+	jsonStr, _ := json.Marshal(value)
+	qur := QueryParser{isSubClause: true}
+	value, err := qur.Parse(jsonStr)
+	if err != nil {
+		fmt.Errorf("error marshalling data %v", err)
+	}
+	return value
 }
 
 func (q *QueryParser) nextClause(nextClause Clause) func() []Clause {
