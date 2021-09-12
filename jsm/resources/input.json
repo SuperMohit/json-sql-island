@@ -17,6 +17,11 @@
       "fieldValue": "value"
     },
     {
+      "operator": "BETWEEN",
+      "fieldName": "column5",
+      "fieldValue": [1, 2]
+    },
+    {
       "operator" : "=",
       "fieldName": "column3",
       "fieldValue": {

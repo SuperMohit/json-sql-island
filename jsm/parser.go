@@ -14,6 +14,13 @@ type QueryParser struct {
 	parseTree   Clause
 	sql         string
 	isSubClause bool
+	*clause
+}
+
+func NewQueryParser(cl *clause) *QueryParser {
+	return &QueryParser{
+		clause: cl,
+	}
 }
 
 //go:embed resources/input.json
@@ -24,14 +31,20 @@ func (q *QueryParser) Parse(body []byte) (string, error) {
 	if len(body) == 0 {
 		body = query
 	}
+
+	// Reading the json
 	err := q.jsonReader(body)
 	if err != nil {
 		return "", err
 	}
+
+	// generate the parse tree
 	err = q.generateParseTree()
 	if err != nil {
 		return "", err
 	}
+
+	//Build the expression
 	err = q.buildExpression()
 	if err != nil {
 		return "", err
@@ -39,6 +52,7 @@ func (q *QueryParser) Parse(body []byte) (string, error) {
 	return q.sql, nil
 }
 
+// not implemented validator=-- schema validation
 func (q *QueryParser) jsonReader(body []byte) error {
 	err := json.Unmarshal(body, &q.query)
 	if err != nil {
@@ -103,30 +117,23 @@ func (q *QueryParser) generateParseTree() error {
 			}
 		case "Where":
 			if !f.IsZero() {
-				w := where{
-					conditions: func() []condition {
-						conds := make([]condition, 0, len(q.query.Where))
-						for _, v := range q.query.Where {
-							value := v.Fieldvalue
-							switch value.(type) {
-							case string, int:
-								// other scalar data types
-								break
-							default:
-								value = recurseSubClauses(value)
-							}
-
-							conds = append(conds,
-								condition{
-									col:   v.Fieldname,
-									op:    v.Operator,
-									value: value,
-								})
+				w := q.clause.where
+				w.conditions = func() []condition {
+					for _, v := range q.query.Where {
+						value := v.Fieldvalue
+						switch value.(type) {
+						case string, int, []interface{}:
+							// other scalar data types
+							break
+						default:
+							value = recurseSubClauses(value)
 						}
-						return conds
-					}(),
-					nextClauses: q.nextClause(nextClause)(),
-				}
+						w.Where(v.Fieldname, value, v.Operator)
+
+					}
+					return w.conditions
+				}()
+
 				nextClause = w
 			}
 		case "From":
@@ -164,8 +171,10 @@ func (q *QueryParser) generateParseTree() error {
 
 func recurseSubClauses(value interface{}) interface{} {
 	jsonStr, _ := json.Marshal(value)
-	qur := QueryParser{isSubClause: true}
-	value, err := qur.Parse(jsonStr)
+
+	cl := NewClause()
+	parser := NewQueryParser(cl)
+	value, err := parser.Parse(jsonStr)
 	if err != nil {
 		fmt.Errorf("error marshalling data %v", err)
 	}

@@ -1,7 +1,6 @@
 package jsm
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -21,6 +20,9 @@ const (
 type where struct {
 	conditions  []condition
 	nextClauses []Clause
+	operatorMap map[string]func(column string, values interface{}) condition
+	// initialize for specific function
+	sqlBuilder func(sb *strings.Builder)
 }
 
 type condition struct {
@@ -29,12 +31,20 @@ type condition struct {
 	value interface{}
 }
 
-func (w *where) Where(key, value string, op operator) *where {
-	w.conditions = append(w.conditions, condition{
-		col:   key,
-		op:    string(op),
-		value: value,
-	})
+func (w *where) Where(key string, values interface{}, op string) *where {
+
+	if op != string(conditionBetween) {
+		w.conditions = append(w.conditions, condition{
+			col:   key,
+			op:    op,
+			value: values,
+		})
+		return w
+	}
+
+	transformer := w.operatorMap[op]
+	c := transformer(key, values)
+	w.conditions = append(w.conditions, c)
 	return w
 }
 
@@ -46,21 +56,7 @@ func (w *where) Next(n Clause) *where {
 
 // builds where expression and calls the child clauses next in order
 func (w where) Build(sb *strings.Builder) {
-	sb.WriteString(" WHERE")
-	l := len(w.conditions) - 1
-	for i, w := range w.conditions {
-		if w.op == string(conditionIN) {
-			// TODO based on datatype
-			sb.WriteString(fmt.Sprintf(" %s %s (%s)", w.col, w.op, w.value))
-		} else {
-			sb.WriteString(fmt.Sprintf(" %s %s %s", w.col, w.op, w.value))
-		}
-		if i < l {
-			// TODO for OR etc
-			sb.WriteString(" AND")
-		}
-	}
-
+	w.sqlBuilder(sb)
 	for _, c := range w.nextClauses {
 		c.Build(sb)
 	}

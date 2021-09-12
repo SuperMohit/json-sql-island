@@ -17,7 +17,8 @@ func main() {
 	fptr := flag.String("input", "input.json", "file path to read from")
 	flag.Parse()
 	data, _ := ioutil.ReadFile(*fptr)
-	parser := jsm.QueryParser{}
+	cl := jsm.NewClause()
+	parser := jsm.NewQueryParser(cl)
 	q, _ := parser.Parse(data)
 	fmt.Print(q)
 }
